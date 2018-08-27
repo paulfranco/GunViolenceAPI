@@ -20,6 +20,10 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _passport = require('passport');
+
+var _passport2 = _interopRequireDefault(_passport);
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -29,6 +33,8 @@ var _routes = require('./routes');
 var _routes2 = _interopRequireDefault(_routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LocalStrategy = require('passport-local').Strategy;
 
 var app = (0, _express2.default)();
 app.server = _http2.default.createServer(app);
@@ -40,6 +46,14 @@ app.use(_bodyParser2.default.json({
 }));
 
 // passport config
+app.use(_passport2.default.initialize());
+var Account = require('./model/account');
+_passport2.default.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+}, Account.authenticate()));
+_passport2.default.serializeUser(Account.serializeUser());
+_passport2.default.deserializeUser(Account.deserializeUser());
 
 // api routes/v1
 app.use('/v1', _routes2.default);

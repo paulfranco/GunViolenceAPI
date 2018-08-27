@@ -18,6 +18,8 @@ var _detail = require('../model/detail');
 
 var _detail2 = _interopRequireDefault(_detail);
 
+var _authMiddleware = require('../middleware/authMiddleware');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (_ref) {
@@ -27,7 +29,7 @@ exports.default = function (_ref) {
     var api = (0, _express.Router)();
 
     // '/v1/event/add' - Create
-    api.post('/add', function (req, res) {
+    api.post('/add', _authMiddleware.authenticate, function (req, res) {
         var newEvent = new _event2.default();
         newEvent.date = req.body.date;
 
@@ -65,7 +67,7 @@ exports.default = function (_ref) {
     });
 
     // '/v1/event/:id' - Update
-    api.put('/:id', function (req, res) {
+    api.put('/:id', _authMiddleware.authenticate, function (req, res) {
         _event2.default.findById(req.params.id, function (err, event) {
             if (err) {
                 res.send(err);
@@ -85,7 +87,7 @@ exports.default = function (_ref) {
     });
 
     // '/v1/event/:id' - Delete
-    api.delete('/:id', function (req, res) {
+    api.delete('/:id', _authMiddleware.authenticate, function (req, res) {
         _event2.default.remove({
             _id: req.params.id
         }, function (err, event) {
@@ -101,7 +103,7 @@ exports.default = function (_ref) {
 
     // add details for a specific event id
     // 'v1/event/details/add/:id
-    api.post('/details/add/:id', function (req, res) {
+    api.post('/details/add/:id', _authMiddleware.authenticate, function (req, res) {
         _event2.default.findById(req.params.id, function (err, event) {
             if (err) {
                 res.send(err);

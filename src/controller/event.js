@@ -3,11 +3,13 @@ import { Router } from 'express';
 import Event from '../model/event';
 import Detail from '../model/detail';
 
+import { authenticate } from '../middleware/authMiddleware';
+
 export default({ config, db }) => {
     let api = Router();
 
     // '/v1/event/add' - Create
-    api.post('/add', (req, res) => {
+    api.post('/add', authenticate, (req, res) => {
         let newEvent = new Event();
         newEvent.date = req.body.date;
 
@@ -45,7 +47,7 @@ export default({ config, db }) => {
     });
 
     // '/v1/event/:id' - Update
-    api.put('/:id', (req, res) => {
+    api.put('/:id', authenticate, (req, res) => {
         Event.findById(req.params.id, (err, event) => {
             if (err) {
                 res.send(err);
@@ -65,7 +67,7 @@ export default({ config, db }) => {
     });
 
     // '/v1/event/:id' - Delete
-    api.delete('/:id', (req, res) => {
+    api.delete('/:id', authenticate, (req, res) => {
         Event.remove({
             _id: req.params.id
         }, (err, event) => {
@@ -81,7 +83,7 @@ export default({ config, db }) => {
 
     // add details for a specific event id
     // 'v1/event/details/add/:id
-    api.post('/details/add/:id', (req, res) => {
+    api.post('/details/add/:id', authenticate, (req, res) => {
         Event.findById(req.params.id, (err, event) => {
             if (err) {
                 res.send(err);
