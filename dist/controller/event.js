@@ -14,6 +14,10 @@ var _event = require('../model/event');
 
 var _event2 = _interopRequireDefault(_event);
 
+var _detail = require('../model/detail');
+
+var _detail2 = _interopRequireDefault(_detail);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (_ref) {
@@ -102,13 +106,14 @@ exports.default = function (_ref) {
             if (err) {
                 res.send(err);
             } else {
-                var newDetail = new Detail();
+                var newDetail = new _detail2.default();
 
                 newDetail.address = req.body.address;
                 newDetail.city = req.body.city;
                 newDetail.state = req.body.state;
                 newDetail.peopleKilled = req.body.peopleKilled;
                 newDetail.peopleInjured = req.body.peopleInjured;
+                newDetail.notes = req.body.notes;
                 newDetail.source = req.body.source;
                 newDetail.imagePath = req.body.imagePath;
                 newDetail.event = event._id;
@@ -136,7 +141,7 @@ exports.default = function (_ref) {
     // Get detail for a specific event id
     // '/v1/details/:id'
     api.get('/details/:id', function (req, res) {
-        Detail.find({ event: req.params.id }, function (err, details) {
+        _detail2.default.find({ event: req.params.id }, function (err, details) {
             if (err) {
                 res.send(err);
             } else {

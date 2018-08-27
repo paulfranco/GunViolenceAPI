@@ -36,6 +36,11 @@ var DetailSchema = new Schema({
         required: true,
         default: 0
     },
+    notes: {
+        type: String,
+        required: false,
+        default: null
+    },
     source: {
         type: String,
         required: true,
@@ -43,7 +48,7 @@ var DetailSchema = new Schema({
     },
     imagePath: {
         type: String,
-        required: true,
+        required: false,
         default: null
     },
     event: {

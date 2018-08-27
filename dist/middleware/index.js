@@ -10,7 +10,7 @@ exports.default = function (_ref) {
     var config = _ref.config,
         db = _ref.db;
 
-
+    var api = (0, _express.Router)();
     // add middleware
 
     return api;
