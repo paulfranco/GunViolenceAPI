@@ -48,4 +48,4 @@ let DetailSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Detail', DetailSchema);"add"
+module.exports = mongoose.model('Detail', DetailSchema);
